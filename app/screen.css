@@ -1,0 +1,95 @@
+* { box-sizing: border-box; }
+
+html, body, main {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+body {
+  color: #fff5e4;
+  background: #121c21;
+  font-family: Arial, sans-serif;
+}
+
+.artwork {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.controls {
+  position: absolute;
+  bottom: 5vh;
+  left: 5vw;
+  right: 5vw;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.dock, .status {
+  background-color: rgba(14, 20, 24, .94);
+  border: 1px solid rgba(255, 242, 222, .24);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, .3);
+}
+
+.dock {
+  display: flex;
+  max-width: 100%;
+  padding: 4px;
+  border-radius: 999px;
+}
+
+.shortcut {
+  width: 6.8vh;
+  min-width: 38px;
+  height: 6.8vh;
+  min-height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  appearance: none;
+  padding: 0;
+  margin: 0 4px;
+  background: transparent;
+  border: 3px solid transparent;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.shortcut:focus {
+  background: #3a3b3a;
+  border-color: #fff1d3;
+  outline: none;
+}
+
+.shortcut img {
+  width: 3.6vh;
+  min-width: 22px;
+  height: auto;
+}
+
+.status {
+  max-width: 100%;
+  margin-bottom: 1.4vh;
+  border-radius: 16px;
+  padding: .7em 1em;
+  font-size: 2.7vh;
+  text-align: center;
+}
+
+.status:empty {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+  overflow: hidden;
+}
+
+.dock[hidden] { display: none; }

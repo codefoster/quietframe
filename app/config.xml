@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:tizen="http://tizen.org/ns/widgets"
+        id="https://example.org/quiet-frame" version="0.1.0" viewmodes="fullscreen">
+  <tizen:application id="Qf7aKp2LmN.QuietFrame" package="Qf7aKp2LmN" required_version="6.5"/>
+  <content src="index.html"/>
+  <name>Quiet Frame</name>
+  <description>Full-screen artwork and a small row of TV shortcuts.</description>
+  <icon src="assets/icon.png"/>
+  <feature name="http://tizen.org/feature/screen.size.all"/>
+  <tizen:profile name="tv"/>
+  <tizen:privilege name="http://tizen.org/privilege/application.launch"/>
+  <tizen:metadata key="http://tizen.org/metadata/app_ui_type/base_screen_resolution" value="fullscreen"/>
+  <tizen:setting screen-orientation="landscape" context-menu="disable" background-support="disable" hwkey-event="enable"/>
+</widget>

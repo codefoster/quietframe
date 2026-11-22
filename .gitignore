@@ -1,0 +1,14 @@
+*.wgt
+*.p12
+*.pfx
+*.pem
+*.key
+profiles.xml
+author-signature.xml
+signature*.xml
+.env*
+.buildResult/
+dist/
+node_modules/
+__pycache__/
+.buildResult.*/
