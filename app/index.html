@@ -7,11 +7,16 @@
   <title>Quiet Frame</title>
   <link rel="stylesheet" href="screen.css">
   <script defer src="shortcuts.js"></script>
+  <script defer src="gallery.js"></script>
   <script defer src="screen.js"></script>
 </head>
 <body>
   <main aria-label="Quiet Frame">
     <img class="artwork" src="assets/inlet.jpg" alt="Oil painting of a quiet coastal inlet at dusk, with dark firs and warm light on the horizon">
+    <div class="clock-panel" aria-label="Local time and date">
+      <time class="clock"></time>
+      <time class="calendar"></time>
+    </div>
     <div class="controls">
       <div class="status" role="status" aria-live="polite" aria-atomic="true"></div>
       <nav class="dock" aria-label="TV shortcuts"></nav>

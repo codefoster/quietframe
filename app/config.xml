@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <widget xmlns="http://www.w3.org/ns/widgets" xmlns:tizen="http://tizen.org/ns/widgets"
-        id="https://example.org/quiet-frame" version="0.1.0" viewmodes="fullscreen">
+        id="https://example.org/quiet-frame" version="0.3.0" viewmodes="fullscreen">
   <tizen:application id="Qf7aKp2LmN.QuietFrame" package="Qf7aKp2LmN" required_version="6.5"/>
   <content src="index.html"/>
   <name>Quiet Frame</name>

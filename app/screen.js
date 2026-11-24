@@ -3,21 +3,44 @@
 
   var dock = document.querySelector('.dock');
   var status = document.querySelector('.status');
+  var clock = document.querySelector('.clock');
+  var calendar = document.querySelector('.calendar');
+  var artwork = document.querySelector('.artwork');
+  var gallery = window.quietFrameGallery || [];
+  var fallbackArt = artwork.getAttribute('src');
+  var fallbackAlt = artwork.alt;
+  var displayDay;
   var active = 0;
   var pending = null;
-  var buttons = window.quietFrameShortcuts.map(createShortcut);
+  var clockTimer;
+  var shortcuts = window.quietFrameShortcuts;
+  var buttons = shortcuts.map(createShortcut);
 
   function createShortcut(shortcut, index) {
     var button = document.createElement('button');
-    var icon = document.createElement('img');
+    var fallback = document.createElement('span');
     button.className = 'shortcut';
     button.type = 'button';
     button.tabIndex = -1;
     button.setAttribute('aria-label', 'Open ' + shortcut.label);
     button.title = shortcut.label;
-    icon.src = shortcut.icon;
-    icon.alt = '';
-    button.appendChild(icon);
+    fallback.className = 'shortcut-fallback';
+    fallback.setAttribute('aria-hidden', 'true');
+    fallback.textContent = shortcut.initials || shortcut.label.slice(0, 2);
+    button.appendChild(fallback);
+
+    if (shortcut.icon) {
+      var icon = document.createElement('img');
+      icon.alt = '';
+      icon.addEventListener('load', function () {
+        icon.hidden = false;
+        fallback.hidden = true;
+      });
+      icon.hidden = true;
+      icon.src = shortcut.icon;
+      button.appendChild(icon);
+    }
+
     dock.appendChild(button);
     button.addEventListener('focus', function () {
       active = index;
@@ -30,9 +53,47 @@
 
   function focusShortcut(index) {
     if (buttons.length) {
-      var button = buttons[Math.max(0, Math.min(index, buttons.length - 1))];
-      button.focus();
+      buttons[Math.max(0, Math.min(index, buttons.length - 1))].focus();
     }
+  }
+
+  function showDailyArtwork(now) {
+    if (!gallery.length) return;
+
+    // Turn the device's civil date into an ordinal without counting elapsed local hours.
+    var day = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()) / 86400000;
+    if (day === displayDay) return;
+
+    displayDay = day;
+    var index = ((day % gallery.length) + gallery.length) % gallery.length;
+    var work = gallery[index];
+    var image = new Image();
+
+    image.onload = function () {
+      if (displayDay !== day) return;
+      artwork.alt = work.title + ' by ' + work.artist;
+      artwork.src = work.src;
+    };
+
+    image.onerror = function () {
+      if (displayDay !== day) return;
+      artwork.alt = fallbackAlt;
+      artwork.src = fallbackArt;
+    };
+
+    image.src = work.src;
+  }
+
+  function refreshClock() {
+    clearTimeout(clockTimer);
+    var now = new Date();
+    showDailyArtwork(now);
+    clock.textContent = now.toLocaleTimeString(undefined, {hour: 'numeric', minute: '2-digit'});
+    calendar.textContent = now.toLocaleDateString(undefined, {
+      weekday: 'long', month: 'long', day: 'numeric', year: 'numeric'
+    });
+    clock.dateTime = calendar.dateTime = now.toISOString();
+    clockTimer = setTimeout(refreshClock, 60000 - (now.getTime() % 60000));
   }
 
   function cancelLaunch() {
@@ -64,8 +125,6 @@
     pending = attempt;
 
     try {
-      // A targeted, standard Tizen App Control. The TV decides whether the
-      // installed target may be opened. Some consumer builds restrict this.
       var control = new platform.ApplicationControl('http://tizen.org/appcontrol/operation/default');
       platform.application.launchAppControl(control, shortcut.appId, function () {
         finish('');
@@ -118,15 +177,18 @@
   });
 
   document.addEventListener('visibilitychange', function () {
-    if (!document.hidden) {
-      cancelLaunch();
-      status.textContent = '';
-      focusShortcut(active);
+    if (document.hidden) {
+      clearTimeout(clockTimer);
+      return;
     }
+    refreshClock();
+    cancelLaunch();
+    status.textContent = '';
+    focusShortcut(active);
   });
 
+  refreshClock();
   if (buttons.length) {
-    // Keep the dock reachable with a keyboard in addition to remote arrows.
     dock.addEventListener('focusin', function (event) {
       buttons.forEach(function (button) {
         button.tabIndex = button === event.target ? 0 : -1;

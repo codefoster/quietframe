@@ -1,4 +1,5 @@
 * { box-sizing: border-box; }
+[hidden] { display: none !important; }
 
 html, body, main {
   width: 100%;
@@ -17,7 +18,36 @@ body {
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+}
+
+.clock-panel {
+  position: absolute;
+  top: 6vh;
+  left: 5vw;
+  max-width: 90vw;
+  padding: .7vh 1vw .85vh;
+  margin: -.7vh -1vw 0;
+  border-radius: 10px;
+  background-color: rgba(14, 20, 24, .74);
+  text-shadow: 0 1px 4px #111a1e, 0 2px 12px #111a1e;
+}
+
+.clock, .calendar { display: block; }
+
+.clock {
+  font-size: 5.9vh;
+  font-weight: 300;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -.03em;
+  line-height: 1.05;
+}
+
+.calendar {
+  color: #fff1d3;
+  margin-top: 1vh;
+  font-size: 2.25vh;
+  letter-spacing: .015em;
 }
 
 .controls {
@@ -31,45 +61,63 @@ body {
 }
 
 .dock, .status {
-  background-color: rgba(14, 20, 24, .94);
-  border: 1px solid rgba(255, 242, 222, .24);
+  background-color: rgba(14, 20, 24, .91);
+  border: 1px solid rgba(255, 242, 222, .26);
   box-shadow: 0 2px 12px rgba(0, 0, 0, .3);
 }
 
 .dock {
   display: flex;
   max-width: 100%;
-  padding: 4px;
-  border-radius: 999px;
+  padding: 6px;
+  border-radius: 22px;
 }
 
 .shortcut {
-  width: 6.8vh;
+  width: 7vh;
   min-width: 38px;
-  height: 6.8vh;
+  height: 7vh;
   min-height: 38px;
   display: flex;
   align-items: center;
   justify-content: center;
   appearance: none;
   padding: 0;
-  margin: 0 4px;
+  margin: 0 3px;
   background: transparent;
   border: 3px solid transparent;
-  border-radius: 50%;
+  border-radius: 15px;
   cursor: pointer;
 }
 
 .shortcut:focus {
-  background: #3a3b3a;
+  background: #393a38;
   border-color: #fff1d3;
   outline: none;
 }
 
+.shortcut img, .shortcut-fallback {
+  width: 4.6vh;
+  min-width: 25px;
+  height: 4.6vh;
+  min-height: 25px;
+  border-radius: 9px;
+}
+
 .shortcut img {
-  width: 3.6vh;
-  min-width: 22px;
-  height: auto;
+  display: block;
+  object-fit: contain;
+}
+
+.shortcut-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #25323a;
+  color: #fff1d3;
+  font-size: 1.8vh;
+  font-weight: bold;
+  letter-spacing: .04em;
 }
 
 .status {
@@ -91,5 +139,3 @@ body {
   clip: rect(0, 0, 0, 0);
   overflow: hidden;
 }
-
-.dock[hidden] { display: none; }
